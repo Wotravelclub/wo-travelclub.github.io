@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WO Travel | Checklist La Guajira</title>
+
+<style>
+@font-face{
+font-family:'Aquavit';
+src:url('aquavit-semibold.otf') format('opentype');
+}
+
+@font-face{
+font-family:'Calendula';
+src:url('fonnts.com-Calendula.otf') format('opentype');
+}
+
+:root{
+--blue:#021e98;
+--yellow:#f2ea99;
+--violet:#a012ff;
+--cream:#ebebd7;
+--fuchsia:#ff4fbf;
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:var(--cream);
+font-family:'Aquavit',sans-serif;
+color:var(--blue);
+overflow-x:hidden;
+}
+
+.floating{
+position:fixed;
+font-size:28px;
+opacity:.25;
+pointer-events:none;
+animation:float 12s linear infinite;
+}
+
+@keyframes float{
+from{transform:translateY(110vh)}
+to{transform:translateY(-120px)}
+}
+
+.container{
+max-width:720px;
+margin:auto;
+padding:24px;
+position:relative;
+z-index:2;
+}
+
+.hero{
+text-align:center;
+}
+
+.badge{
+display:inline-block;
+padding:10px 18px;
+background:var(--yellow);
+border-radius:999px;
+font-size:14px;
+}
+
+h1{
+font-family:'Calendula',cursive;
+font-size:64px;
+margin:20px 0 5px;
+color:var(--blue);
+}
+
+.subtitle{
+color:var(--violet);
+font-size:22px;
+}
+
+.progress-wrap{
+margin-top:25px;
+}
+
+.progress{
+height:16px;
+background:white;
+border-radius:999px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff4fbf,#a012ff);
+transition:.4s;
+}
+
+.counter{
+display:flex;
+justify-content:space-between;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.card{
+background:white;
+padding:24px;
+border-radius:28px;
+margin-top:20px;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.item{
+display:flex;
+gap:12px;
+padding:16px;
+margin-bottom:10px;
+border-radius:18px;
+background:#f8f8ef;
+}
+
+input[type=checkbox]{
+width:24px;
+height:24px;
+accent-color:#a012ff;
+}
+
+.small{
+color:#a012ff;
+font-size:13px;
+margin-top:4px;
+}
+
+.popup{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(2,30,152,.8);
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:999;
+}
+
+.popupbox{
+background:#021e98;
+color:white;
+max-width:450px;
+padding:35px;
+border-radius:28px;
+text-align:center;
+}
+
+.popupbox h2{
+font-family:'Calendula';
+font-size:52px;
+margin:0;
+}
+
+.btn{
+display:inline-block;
+padding:15px 28px;
+border-radius:999px;
+background:linear-gradient(90deg,#ff4fbf,#a012ff);
+color:white;
+text-decoration:none;
+margin-top:15px;
+}
+</style>
+</head>
+<body>
+
+<div class="floating" style="left:5%;animation-duration:11s;">🦋</div>
+<div class="floating" style="left:18%;animation-duration:14s;">✨</div>
+<div class="floating" style="left:35%;animation-duration:16s;">🌎</div>
+<div class="floating" style="left:55%;animation-duration:12s;">✈️</div>
+<div class="floating" style="left:75%;animation-duration:15s;">💜</div>
+<div class="floating" style="left:90%;animation-duration:13s;">🦋</div>
+
+<div class="container">
+
+<div class="hero">
+<div class="badge">✈️ Aventura de Mujeres</div>
+<h1>Checklist La Guajira</h1>
+<div class="subtitle">Keep Expanding 🦋</div>
+</div>
+
+<div class="progress-wrap">
+<div class="counter">
+<span>Tu progreso</span>
+<span><span id="count">0</span> de 11 ✓</span>
+</div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+</div>
+
+<div class="card" id="list"></div>
+
+</div>
+
+<div class="popup" id="popup">
+<div class="popupbox">
+<div style="font-size:60px">🎉</div>
+<h2>¡Lista para la aventura!</h2>
+<p>Tienes todo lo necesario para vivir la experiencia La Guajira ✨</p>
+<p>Keep Expanding 🦋</p>
+<a class="btn" href="#">Cerrar</a>
+</div>
+</div>
+
+<script>
+const items=[
+["Repelente contra insectos 🦟","Súper importante"],
+["Protector solar ☀️","Protege tu piel"],
+["Toalla y artículos de aseo personal 🧴","Lo básico siempre"],
+["Carnet de vacunación 💉","Fiebre amarilla - obligatorio"],
+["Efectivo 💵","No hay cajeros allá"],
+["Vestido de baño 👙","¡A disfrutar el agua!"],
+["Linterna o luz frontal 🔦","Poca iluminación en la noche"],
+["Ropa ligera y fresca 👕","Algodón o secado rápido"],
+["Ropa para dormir 🌙","Descanso cómodo"],
+["Pantalón largo 👖","Ideal para recorridos"],
+["Tenis cerrados 👟","Dunas y terreno irregular"]
+];
+
+const list=document.getElementById('list');
+
+items.forEach((i,n)=>{
+list.innerHTML+=`
+<div class="item">
+<input type="checkbox" id="c${n}">
+<label for="c${n}">
+<div>${i[0]}</div>
+<div class="small">${i[1]}</div>
+</label>
+</div>`;
+});
+
+const checks=document.querySelectorAll('input');
+
+function update(){
+let total=0;
+checks.forEach((c,i)=>{
+if(localStorage.getItem('wo_'+i)==='1') c.checked=true;
+if(c.checked) total++;
+});
+document.getElementById('count').innerText=total;
+document.getElementById('bar').style.width=(total/11*100)+'%';
+if(total===11){
+document.getElementById('popup').style.display='flex';
+}
+}
+
+checks.forEach((c,i)=>{
+c.addEventListener('change',()=>{
+localStorage.setItem('wo_'+i,c.checked?'1':'0');
+update();
+});
+});
+
+update();
+</script>
+
+</body>
+</html>
